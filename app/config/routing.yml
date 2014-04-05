@@ -1,0 +1,4 @@
+glutzic_github_wrike:
+    resource: "@GlutzicGithubWrikeBundle/Resources/config/routing.yml"
+    prefix:   /
+

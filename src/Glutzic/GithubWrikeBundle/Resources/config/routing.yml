@@ -1,0 +1,3 @@
+glutzic_github_wrike_homepage:
+    pattern:  /githubwrike/execute
+    defaults: { _controller: GlutzicGithubWrikeBundle:Default:index }
