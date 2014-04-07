@@ -1,7 +1,39 @@
 parameters:
-#    glutzic_github_wrike.example.class: Glutzic\GithubWrikeBundle\Example
+    glutzic_github_wrike.github_cache_dir: '%kernel.cache_dir%/config/github-api'
+    glutzic_github_wrike.github_auth_token: 'a763a19345de260de42742d643fd1209ce606fb2'
+    glutzic_github_wrike.wrike_secret: '209491b447a485e9'
+    glutzic_github_wrike.wrike_consumer: 'a923771156de8e37458dafb875fa3f6a'
 
 services:
-#    glutzic_github_wrike.example:
-#        class: %glutzic_github_wrike.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    glutzic_github_wrike.github_cached_client:
+        class: Github\HttpClient\CachedHttpClient
+        arguments:
+            options:
+                cache_dir: %glutzic_github_wrike.github_cache_dir%
+    
+    glutzic_github_wrike.github_client:
+        class: Github\Client
+        arguments:
+            client: @glutzic_github_wrike.github_cached_client
+        calls:
+            - [authenticate, [%glutzic_github_wrike.github_auth_token%, 'http_token']]
+
+    glutzic_github_wrike.wrike_client:
+        class: Glutzic\GithubWrikeBundle\Client\WrikeClient
+        arguments:
+            secret: %glutzic_github_wrike.wrike_secret%
+            consumer: %glutzic_github_wrike.wrike_consumer%
+            token: ~
+            token_secret: ~
+
+    glutzic_github_wrike.wrike_adapter:
+        class: Glutzic\GithubWrikeBundle\Adapter\WrikeAdapter
+        arguments:
+            client: @glutzic_github_wrike.wrike_client
+            session: @session
+
+    glutzic_github_wrike.github_adapter:
+        class: Glutzic\GithubWrikeBundle\Adapter\GithubAdapter
+        arguments:
+            client: @glutzic_github_wrike.github_client
+            session: @session

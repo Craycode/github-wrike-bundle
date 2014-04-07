@@ -1,3 +1,11 @@
-glutzic_github_wrike_homepage:
+glutzic_github_wrike_authorise:
+    pattern:  /githubwrike/authorise
+    defaults: { _controller: GlutzicGithubWrikeBundle:Default:authorise }
+
+glutzic_github_wrike_access:
+    pattern:  /githubwrike/get_access
+    defaults: { _controller: GlutzicGithubWrikeBundle:Default:access }
+    
+glutzic_github_wrike_execute:
     pattern:  /githubwrike/execute
-    defaults: { _controller: GlutzicGithubWrikeBundle:Default:index }
+    defaults: { _controller: GlutzicGithubWrikeBundle:Default:execute }
